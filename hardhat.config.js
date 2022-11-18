@@ -11,7 +11,7 @@ module.exports = {
   defaultNetwork: "wallaby",
   networks: {
     wallaby: {
-      url: "https://wallaby.node.glif.io/rpc/v1",
+      url: "https://wallaby.node.glif.io/rpc/v0",
       accounts: [PRIVATE_KEY],
     }
   },
