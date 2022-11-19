@@ -41,9 +41,9 @@ contract SoulboundStorage is ISoulboundStorage, AccessControl {
     }
 
     function confirmMint(address receiver, address erc721, uint256 tokenId) public onlyRole(SOULBOUND_COLLECTION) {
-        ReceiverMint[] memory pendingMints = _mintsByReceiver[receiver];
+        ReceiverMint[] storage pendingMints = _mintsByReceiver[receiver];
         for(uint i = 0; i < pendingMints.length; ++i) {
-            ReceiverMint memory pendingMint = pendingMints[i];
+            ReceiverMint storage pendingMint = pendingMints[i];
             if (pendingMint.collection == erc721) {
                 pendingMint.tokenId = tokenId;
                 pendingMint.completed = true;

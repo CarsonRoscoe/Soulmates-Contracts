@@ -91,6 +91,8 @@ export async function Setup(): Promise<Context> {
     const expiredDealDemeritId = keccak256(ethers.utils.toUtf8Bytes("expired-deal"))
     await demeritFactory.registerDemerit(expiredDealDemeritId, expiredDealDemerit.address)
 
+    await addressOracle.setF0Address(user2.address, "t01109")
+
     return {
         nullAddress: "0x0000000000000000000000000000000000000000",
         users,

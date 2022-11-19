@@ -156,4 +156,23 @@ contract MarketAPI {
 
         // Add or replace more deals here.
     }
+
+    function create_mock(uint64 id, string memory label, int64 end) public {
+        MarketTypes.MockDeal memory deal;
+        deal.id = id;
+        deal.cid = "baga6ea4seaqlkg6mss5qs56jqtajg5ycrhpkj2b66cgdkukf2qjmmzz6ayksuci";
+        deal.size = 8388608;
+        deal.verified = false;
+        deal.client = "t01109";
+        deal.provider = "t01113";
+        deal.label = "mAXCg5AIg8YBXbFjtdBy1iZjpDYAwRSt0elGLF5GvTqulEii1VcM";
+        deal.start = 25245;
+        deal.end = end;
+        deal.price_per_epoch = 1100000000000;
+        deal.provider_collateral = 0;
+        deal.client_collateral = 0;
+        deal.activated = 1;
+        deal.terminated = 0;
+        deals[deal.id] = deal;
+    }
 }
