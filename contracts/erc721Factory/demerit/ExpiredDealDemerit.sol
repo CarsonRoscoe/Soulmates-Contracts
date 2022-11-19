@@ -15,7 +15,7 @@ contract ExpiredDealDemerit is IDemerit {
         _marketAPI = MarketAPI(marketAPI);
     }
 
-    function canIssue(address receiver, uint64 dealId) external returns (bool) {
+    function canIssue(address receiver, uint64 dealId) external view returns (bool) {
         bytes32 receiverHash = keccak256(abi.encodePacked(_addressOracle.getF0Address(receiver)));
         bytes32 clientHash = keccak256(abi.encodePacked(_marketAPI.get_deal_client(MarketTypes.GetDealClientParams(dealId)).client));
         int64 endData = _marketAPI.get_deal_term(MarketTypes.GetDealTermParams(dealId)).end;

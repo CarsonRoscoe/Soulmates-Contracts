@@ -35,7 +35,7 @@ describe("DemeritFactory", () => {
 
             expect(await demeritSoulboundERC721.name()).to.equal(NAME)
             expect(await demeritSoulboundERC721.symbol()).to.equal(SYMBOL)
-            expect(await demeritSoulboundERC721.tokenURI(1)).to.equal("URI")
+            expect(await demeritSoulboundERC721.tokenURI(1)).to.equal(URI)
         })
     })
 })
