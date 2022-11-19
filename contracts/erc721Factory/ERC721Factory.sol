@@ -2,12 +2,10 @@
 pragma solidity 0.8.17;
 
 import "../soulboundERC721/SoulboundERC721.sol";
-import "./IERC721Factory.sol";
 import "../soulboundStorage/ISoulboundStorage.sol";
 
-abstract contract ERC721Factory is IERC721Factory {
+abstract contract ERC721Factory {
     mapping(string => address) internal _soulboundCollections;
-    mapping(address => address[]) internal _collectionsByDeployer;
     ISoulboundStorage internal _soulboundStorage;
 
     constructor(address soulboundStorage) {
@@ -28,12 +26,6 @@ abstract contract ERC721Factory is IERC721Factory {
     function registerCollection(string memory key, address collection, address deployer) internal {
         require(_soulboundCollections[key] == address(0), "Error: A factory has already been registered to name.");
         _soulboundCollections[key] = collection;
-        _collectionsByDeployer[deployer].push(collection);
-        _soulboundStorage.registerCollection(msg.sender, collection);
-    }
-
-    function getDeployedCollections(address deployer) external view returns(address[] memory) {
-        address[] memory collections = _collectionsByDeployer[deployer];
-        return collections;
+        _soulboundStorage.registerCollection(deployer, collection);
     }
 }

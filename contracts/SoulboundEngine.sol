@@ -2,7 +2,6 @@
 pragma solidity 0.8.17;
 
 import "./erc721Factory/OpenFactory.sol";
-import "./erc721Factory/IERC721Factory.sol";
 import "./soulboundStorage/ISoulboundStorage.sol";
 
 contract SoulboundEngine {

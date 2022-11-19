@@ -13,19 +13,20 @@ import {
     ExpiredDealDemerit,
 } from "../../typechain-types"
 
-const deploy = async (contractName: string, deployer: SignerWithAddress, args: any[] = []) => {
-    const factory = await ethers.getContractFactory(contractName)
-    const contract = await factory.connect(deployer).deploy(...args)
-    return contract
-}
-
 interface Users {
     deployer: SignerWithAddress
     user1: SignerWithAddress
     user2: SignerWithAddress
 }
 
+export async function deploy(contractName: string, deployer: SignerWithAddress, args: any[] = []) {
+    const factory = await ethers.getContractFactory(contractName)
+    const contract = await factory.connect(deployer).deploy(...args)
+    return contract
+}
+
 export interface Context {
+    nullAddress: string
     users: Users
 
     marketAPI: MarketAPI
@@ -91,6 +92,7 @@ export async function Setup(): Promise<Context> {
     await demeritFactory.registerDemerit(expiredDealDemeritId, expiredDealDemerit.address)
 
     return {
+        nullAddress: "0x0000000000000000000000000000000000000000",
         users,
 
         marketAPI,

@@ -63,7 +63,7 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
         address to,
         uint256 tokenId
     ) public virtual override {
-        revert("ERROR: Soulbound tokens cannot be transferred.");
+        revert("Error: Soulbound tokens cannot be transferred.");
     }
 
     /**
@@ -74,7 +74,7 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
         address to,
         uint256 tokenId
     ) public virtual override {
-        revert("ERROR: Soulbound tokens cannot be transferred.");
+        revert("Error: Soulbound tokens cannot be transferred.");
     }
 
     /**
@@ -86,6 +86,6 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
         uint256 tokenId,
         bytes memory data
     ) public virtual override {
-        revert("ERROR: Soulbound tokens cannot be transferred.");
+        revert("Error: Soulbound tokens cannot be transferred.");
     }
 }

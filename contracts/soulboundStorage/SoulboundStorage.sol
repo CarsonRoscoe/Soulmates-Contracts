@@ -30,7 +30,7 @@ contract SoulboundStorage is ISoulboundStorage, AccessControl {
         _grantRole(ERC721_REGISTRAR, erc721Factory);
     }
 
-    function registerCollection(address erc721, address deployer) public onlyRole(ERC721_REGISTRAR) {
+    function registerCollection(address deployer, address erc721) public onlyRole(ERC721_REGISTRAR) {
         _grantRole(SOULBOUND_COLLECTION, erc721);
         _collectionsByDeployer[deployer].push(erc721);
     }
@@ -53,7 +53,7 @@ contract SoulboundStorage is ISoulboundStorage, AccessControl {
     }
 
     // Views
-    function getDeployedCollections(address deployer) public returns(address[] memory) {
+    function getDeployedCollections(address deployer) public view returns(address[] memory) {
         address[] memory collections = _collectionsByDeployer[deployer];
         return collections;
     }
