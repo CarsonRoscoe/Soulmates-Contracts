@@ -26,7 +26,7 @@ contract SoulboundStorage is ISoulboundStorage, AccessControl {
         _grantRole(FACTORY_REGISTRAR, soulboundEngine);
     }
 
-    function registerFactory(address erc721Factory) public onlyRole(ERC721_REGISTRAR) {
+    function registerFactory(address erc721Factory) public onlyRole(FACTORY_REGISTRAR) {
         _grantRole(ERC721_REGISTRAR, erc721Factory);
     }
 
@@ -73,6 +73,7 @@ contract SoulboundStorage is ISoulboundStorage, AccessControl {
                 return pendingMint.completed;
             }
         }
+        return false;
     }
 
     function getMintsByReceiver(address receiver) public view returns(ReceiverMint[] memory) {

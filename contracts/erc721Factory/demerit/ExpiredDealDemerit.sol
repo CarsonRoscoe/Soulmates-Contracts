@@ -10,9 +10,9 @@ contract ExpiredDealDemerit is IDemerit {
     MarketAPI _marketAPI;
     AddressOracle _addressOracle;
 
-    constructor(address marketAPI, address addressOracle) {
-        _marketAPI = MarketAPI(marketAPI);
+    constructor(address addressOracle, address marketAPI) {
         _addressOracle = AddressOracle(addressOracle);
+        _marketAPI = MarketAPI(marketAPI);
     }
 
     function canIssue(address receiver, uint64 dealId) external returns (bool) {

@@ -93,8 +93,6 @@ Deploy OpenFactory
 SoulboundEngine.registerFactory(keccak("default"), OpenFactory) 
 
 Deploy DealFactory
-DealFactory.setMarketApi(MarketAPI)
-DealFactory.setAddressOracle(AddressOracle)
 SoulboundEngine.registerFactory(keccak("deal"), DealFactory) 
 
 Deploy ExpiredDealDemerit(MarketAPI, AddressOracle)
@@ -107,6 +105,7 @@ SoulboundEngine.registerFactory(keccak("demerit"), DealFactory)
 Only need SoulboundEngine's address known to frontend. Everything else is discoverable
 
 SoulboundStorage = SoulboundEngine.getStorageAddress()
+
 OpenFactory = OpenFactory(SoulboundEngine.getFactory(keccak("default")))
 ERC721 = OpenFactory.createCollection("name", "symbol", "ipfs://hash")
 ERC721.issue(receiver);
@@ -122,3 +121,16 @@ IssuerMints[] = SoulboundStorage.getIssuerMints(issuer)
 bool = SoulboundStorage.wasMintCompleted(receiver, erc721)
 ReceiverMints[] = SoulboundStorage.getReceiverMints()
 
+## TODOs
+
+Test Setup
+
+Write tests
+
+Deploy script
+
+ABIs to frontend
+
+wagmi = useContractRead(adresss, abi, provider, {
+    pollingInterval
+})

@@ -22,6 +22,8 @@ contract DemeritSoulboundERC721 is SoulboundERC721 {
         _revokeRole(DEFAULT_ADMIN_ROLE, owner);
     }
 
+    // TODO: Override supports interface so frontend can discover assign function
+
     function assign(address receiver, uint64 dealId) public virtual {
         require(_demerit.canIssue(receiver, dealId), "Error: Receiver does not deserve this demerit.");
         _soulboundStorage.addIssuedToken(msg.sender, receiver, address(this));
