@@ -161,9 +161,9 @@ contract MarketAPI {
             .cid = "baga6ea4seaqlkg6mss5qs56jqtajg5ycrhpkj2b66cgdkukf2qjmmzz6ayksuci";
         deal_67.size = 8388608;
         deal_67.verified = false;
-        deal_67.client = "t01109";
+        deal_67.client = "t01109";      
         deal_67.provider = "t01113";
-        deal_67.label = "mAXCg5AIg8YBXbFjtdBy1iZjpDYAwRSt0elGLF5GvTqulEii1VcM";
+        deal_67.label = "mAXCg5AIg8YBXbFjtdBy1iZjpDYAwRSt0elGLF5GvTqulEii1VcM"; // tokenIds URI
         deal_67.start = 25245;
         deal_67.end = 545150;
         deal_67.price_per_epoch = 1100000000000;
@@ -171,6 +171,8 @@ contract MarketAPI {
         deal_67.client_collateral = 0;
         deal_67.activated = 1;
         deal_67.terminated = 0;
+
+        ///////
 
         deals[deal_67.id] = deal_67;
 
