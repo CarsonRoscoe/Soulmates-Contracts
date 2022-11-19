@@ -3,8 +3,10 @@ import "@nomicfoundation/hardhat-toolbox"
 import "hardhat-deploy"
 import "hardhat-deploy-ethers"
 import "./tasks"
+import "./tasks/deploy-suite"
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: "0.8.17",
@@ -12,6 +14,11 @@ module.exports = {
     networks: {
         wallaby: {
             url: "https://wallaby.node.glif.io/rpc/v0",
+            accounts: [PRIVATE_KEY],
+            chainId: 31415,
+        },
+        goerli: {
+            url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
             accounts: [PRIVATE_KEY],
         },
         hardhat: {},

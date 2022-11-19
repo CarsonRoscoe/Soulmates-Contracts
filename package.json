@@ -38,6 +38,7 @@
     "@typechain/ethers-v5": "^10.1.1",
     "@typechain/hardhat": "^6.1.4",
     "@types/mocha": "^10.0.0",
+    "@types/request": "^2.48.8",
     "@zondax/filecoin-solidity-mock-api": "^0.2.0",
     "babel-eslint": "^10.1.0",
     "dotenv": "^10.0.0",

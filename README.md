@@ -1,5 +1,16 @@
 # FEVM Hardhat Kit
 
+# Deployments
+
+MarketAPI at address 0xD5896A115accfD9214eA90F84e0903884F3658F1
+AddressOracle at address 0xA445d307569DD53695af6A769aa631c08b775840
+SoulboundStorage at address 0xD19F7A5C9cD6f66ecf0787439F86533D130f88a1
+SoulboundEngine at address 0xD68fd6041958A74bc528455d305bBB452Ec09E9a
+OpenFactory at address 0xf87131B77798d186593bA0B9CF71Ffdf99243E42
+DealFactory at address 0x86453f5B1B8bd62C7D30315AfEda4e4C1b5a7F65
+ExpiredDealDemerit at address 0x3f3D6961F13f401F5ba50C78C92CD18681756356
+DemeritFactory at address 0x2f1230560430665D6CA6b981911b77E1E15E06a6
+
 ## Cloning the Repo
 
 Open up your terminal (or command prompt) and navigate to a directory you would like to store this code on. Once there type in the following command:
@@ -74,12 +85,6 @@ yarn hardhat get-balance --contract 'THE DEPLOYED CONTRACT ADDRESS HERE' --accou
 
 The console should read that your account has 10000 SimpleCoin!
 
-
-
-## Deployments
-
-OpenFactory
-0x3be343e5ba5e26736D08e3B8C40a7c86f362Dc3D
 
 ## Deployment Task Steps
 Deploy MarketAPI
