@@ -2,47 +2,63 @@
 pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./ISoulboundERC721.sol";
 
-contract SoulboundERC721 is ERC721, ISoulboundERC721 {
+contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
+    bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
+
     uint256 _nextTokenId;
     mapping(address => bool) _claims;
     address _owner;
     string _uri;
 
-    constructor(address owner, string memory name, string memory symbol, string memory uri) ERC721(name, symbol) {
+    constructor(
+        address owner,
+        string memory name,
+        string memory symbol,
+        string memory uri
+    ) ERC721(name, symbol) {
+        _setupRole(DEFAULT_ADMIN_ROLE, owner);
+        _setupRole(ISSUER_ROLE, owner);
         _owner = owner;
         _uri = uri;
     }
 
-    function issue(address receiver) public {
+    function issue(address receiver) public virtual {
         // require(msg.sender == _owner);
         // Should we restrict receivers to only receive one soulbound per collection?
         _claims[receiver] = true;
     }
 
     // Student claims school's token
-    function claim() public {
+    function claim() public virtual {
         require(_claims[msg.sender] == true, "ERROR: No issue to claim.");
-        _safeMint(msg.sender, _nextTokenId++);
+        mint(msg.sender);
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         return _uri;
     }
 
+    function mint(address receiver) internal virtual {
+        _safeMint(receiver, _nextTokenId++);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+        return ERC721.supportsInterface(interfaceId) || AccessControl.supportsInterface(interfaceId);
+    }
+
     //// Prevent transfers ////
-
-
-        /**
+    /**
      * @dev See {IERC721-transferFrom}.
      */
-     function transferFrom(
+    function transferFrom(
         address from,
         address to,
         uint256 tokenId
     ) public virtual override {
-        revert("ERROR: Souldbound tokens cannot be transferred.");
+        revert("ERROR: Soulbound tokens cannot be transferred.");
     }
 
     /**
@@ -53,7 +69,7 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721 {
         address to,
         uint256 tokenId
     ) public virtual override {
-        revert("ERROR: Souldbound tokens cannot be transferred.");
+        revert("ERROR: Soulbound tokens cannot be transferred.");
     }
 
     /**
@@ -65,6 +81,6 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721 {
         uint256 tokenId,
         bytes memory data
     ) public virtual override {
-        revert("ERROR: Souldbound tokens cannot be transferred.");
+        revert("ERROR: Soulbound tokens cannot be transferred.");
     }
 }

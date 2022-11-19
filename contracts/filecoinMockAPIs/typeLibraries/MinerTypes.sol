@@ -3,7 +3,7 @@ pragma solidity 0.8.17;
 
 import "./CommonTypes.sol";
 
-library MinerTypes{
+library MinerTypes {
     struct GetOwnerReturn {
         bytes owner;
     }

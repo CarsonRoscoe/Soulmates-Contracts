@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity 0.8.17;
 
-library CommonTypes{
+library CommonTypes {
     enum RegisteredSealProof {
         StackedDRG2KiBV1,
         StackedDRG512MiBV1,
         StackedDRG8MiBV1,
         StackedDRG32GiBV1,
         StackedDRG64GiBV1,
-
         StackedDRG2KiBV1P1,
         StackedDRG512MiBV1P1,
         StackedDRG8MiBV1P1,
@@ -188,14 +187,14 @@ library CommonTypes{
         bytes proof_bytes;
     }
 
-    struct VestingFunds{
+    struct VestingFunds {
         int64 epoch;
         int256 amount;
     }
     struct SectorDeals {
         int64 sector_type;
         int64 sector_expiry;
-        uint64 [] deal_ids;
+        uint64[] deal_ids;
     }
 
     struct Signature {
@@ -212,9 +211,9 @@ library CommonTypes{
         string label;
         int64 start_epoch;
         int64 end_epoch;
-        int storage_price_per_epoch;
-        int provider_collateral;
-        int client_collateral;
+        int256 storage_price_per_epoch;
+        int256 provider_collateral;
+        int256 client_collateral;
     }
 
     struct ClientDealProposal {
@@ -232,7 +231,7 @@ library CommonTypes{
         Multihash hash;
     }
 
-    struct Multihash{
+    struct Multihash {
         uint64 code;
         uint8 size;
         bytes digest;

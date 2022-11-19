@@ -4,19 +4,18 @@ pragma solidity 0.8.17;
 import "./erc721Factory/OpenFactory.sol";
 
 contract SoulboundEngine {
-    uint256 id;
-    mapping(uint256 => address) erc721Factories;
+    mapping(bytes32 => address) erc721Factories;
 
-    function createFactory() public {
-        OpenFactory openFactory = new OpenFactory();
-        erc721Factories[id++] = address(openFactory);
+    constructor() {
+        registerFactory(keccak256(abi.encodePacked("default")), address(new OpenFactory()));
     }
 
-    function registerFactory(address erc721Factory) public {
-        erc721Factories[id++] = erc721Factory;
+    function registerFactory(bytes32 _keccakId, address erc721Factory) public {
+        require(erc721Factories[_keccakId] == address(0), "ERROR: Factory already registered with this id.");
+        erc721Factories[_keccakId] = erc721Factory;
     }
 
-    function getFactory(uint256 _id) public view returns(address) {
-        return erc721Factories[_id];
+    function getFactory(bytes32 _keccakId) public view returns (address) {
+        return erc721Factories[_keccakId];
     }
 }
