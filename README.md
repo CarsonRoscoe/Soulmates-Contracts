@@ -80,3 +80,45 @@ The console should read that your account has 10000 SimpleCoin!
 
 OpenFactory
 0x3be343e5ba5e26736D08e3B8C40a7c86f362Dc3D
+
+## Deployment Task Steps
+Deploy MarketAPI
+Deploy AddressOracle
+
+Deploy SoulboundEngine
+Deploy SoulboundStorage(SoulboundEngine)
+SoulboundEngine.registerEngine(SoulboundEngine)
+
+Deploy OpenFactory
+SoulboundEngine.registerFactory(keccak("default"), OpenFactory) 
+
+Deploy DealFactory
+DealFactory.setMarketApi(MarketAPI)
+DealFactory.setAddressOracle(AddressOracle)
+SoulboundEngine.registerFactory(keccak("deal"), DealFactory) 
+
+Deploy ExpiredDealDemerit(MarketAPI, AddressOracle)
+Deploy DemeritFactory
+DemeritFactory.registerDemerit(keccak("expired-deal", ExpiredDealDemerit))
+SoulboundEngine.registerFactory(keccak("demerit"), DealFactory) 
+
+## Usage
+
+Only need SoulboundEngine's address known to frontend. Everything else is discoverable
+
+SoulboundStorage = SoulboundEngine.getStorageAddress()
+OpenFactory = OpenFactory(SoulboundEngine.getFactory(keccak("default")))
+ERC721 = OpenFactory.createCollection("name", "symbol", "ipfs://hash")
+ERC721.issue(receiver);
+ERC721.claim();
+
+SoulboundStorage = SoulboundEngine.getStorageAddress()
+DemeritFactory = DemeritFactory(SoulboundEngine.getFactory(keccak("demerit")))
+ERC721 = OpenFactory.createCollection("name", "symbol", "ipfs://hash")
+ERC721.assign(receiver);
+
+ERC721[] = SoulboundStorage.getDeployedCollections(deployer)
+IssuerMints[] = SoulboundStorage.getIssuerMints(issuer)
+bool = SoulboundStorage.wasMintCompleted(receiver, erc721)
+ReceiverMints[] = SoulboundStorage.getReceiverMints()
+

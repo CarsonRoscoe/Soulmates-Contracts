@@ -9,11 +9,12 @@ contract DemeritSoulboundERC721 is SoulboundERC721 {
 
     constructor(
         address owner,
+        address soulboundStorage,
         address demerit,
         string memory name,
         string memory symbol,
         string memory uri
-    ) SoulboundERC721(owner, name, symbol, uri) {
+    ) SoulboundERC721(owner, soulboundStorage, name, symbol, uri) {
         _owner = owner;
         _uri = uri;
         _demerit = IDemerit(demerit);
@@ -23,6 +24,7 @@ contract DemeritSoulboundERC721 is SoulboundERC721 {
 
     function assign(address receiver, uint64 dealId) public virtual {
         require(_demerit.canIssue(receiver, dealId), "Error: Receiver does not deserve this demerit.");
+        _soulboundStorage.addIssuedToken(msg.sender, receiver, address(this));
         mint(receiver);
     }
 }

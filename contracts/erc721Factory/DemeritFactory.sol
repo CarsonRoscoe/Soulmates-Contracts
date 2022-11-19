@@ -10,7 +10,11 @@ import "../soulboundERC721/DemeritSoulboundERC721.sol";
 contract DemeritFactory is ERC721Factory, Ownable {
     mapping(bytes32 => address) _demerits;
 
+    constructor(address soulboundStorage) ERC721Factory(soulboundStorage) {
+    }
+
     function registerDemerit(bytes32 demeritId, address demerit) public {
+        require(_demerits[demeritId] == address(0), "Error: Demerit already registered to that id");
         _demerits[demeritId] = demerit;
     }
 
@@ -29,11 +33,10 @@ contract DemeritFactory is ERC721Factory, Ownable {
         string memory uri,
         bytes32 data
     ) internal virtual override returns (address) {
-        require(_soulboundCollections[name] == address(0), "Error: A factory has already been registered to name.");
         require(_demerits[data] != address(0), "Error: Demerits require a registered IDemerit implementation.");
 
-        address collection = address(new DemeritSoulboundERC721(msg.sender, _demerits[data], name, symbol, uri));
-        _soulboundCollections[name] = collection;
+        address collection = address(new DemeritSoulboundERC721(msg.sender, address(_soulboundStorage), _demerits[data], name, symbol, uri));
+        registerCollection(name, collection, msg.sender);
 
         return collection;
     }

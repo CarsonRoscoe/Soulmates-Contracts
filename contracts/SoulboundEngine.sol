@@ -2,24 +2,30 @@
 pragma solidity 0.8.17;
 
 import "./erc721Factory/OpenFactory.sol";
-import "./erc721Factory/ERC721Factory.sol";
-
-interface IERC721Factory {
-
-}
+import "./erc721Factory/IERC721Factory.sol";
+import "./soulboundStorage/ISoulboundStorage.sol";
 
 contract SoulboundEngine {
-    mapping(bytes32 => address) erc721Factories;
+    mapping(bytes32 => address) _erc721Factories;
+    bytes32[] public _ids;
+    ISoulboundStorage _soulboundStorage;
 
-    constructor() {
+    constructor(address soulboundStorage) {
+        _soulboundStorage = ISoulboundStorage(soulboundStorage);
     }
 
     function registerFactory(bytes32 _keccakId, address erc721Factory) public {
-        require(erc721Factories[_keccakId] == address(0), "Error: Factory already registered with this id.");
-        erc721Factories[_keccakId] = erc721Factory;
+        require(_erc721Factories[_keccakId] == address(0), "Error: Factory already registered with this id.");
+        _erc721Factories[_keccakId] = erc721Factory;
+        _ids.push(_keccakId);
+        _soulboundStorage.registerFactory(erc721Factory);
     }
 
     function getFactory(bytes32 _keccakId) public view returns (address) {
-        return erc721Factories[_keccakId];
+        return _erc721Factories[_keccakId];
+    }
+
+    function getStorageAddress() public view returns (address) {
+        return address(_soulboundStorage);
     }
 }

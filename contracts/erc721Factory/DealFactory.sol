@@ -5,17 +5,13 @@ import "./ERC721Factory.sol";
 import "../filecoinMockAPIs/typeLibraries/MarketTypes.sol";
 import "../filecoinMockAPIs/MarketAPI.sol";
 import "../addressOracle/AddressOracle.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DealFactory is ERC721Factory, Ownable {
+contract DealFactory is ERC721Factory {
     MarketAPI _marketAPI;
     AddressOracle _addressOracle;
 
-    function setAddressOracle(address oracle) public onlyOwner {
+    constructor(address soulboundStorage, address oracle, address marketAPI) ERC721Factory(soulboundStorage) {
         _addressOracle = AddressOracle(oracle);
-    }
-
-    function setMarketAPI(address marketAPI) public onlyOwner {
         _marketAPI = MarketAPI(marketAPI);
     }
 

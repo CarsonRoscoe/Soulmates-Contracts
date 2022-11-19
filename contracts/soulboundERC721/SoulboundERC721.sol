@@ -4,6 +4,7 @@ pragma solidity 0.8.17;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./ISoulboundERC721.sol";
+import "../soulboundStorage/ISoulboundStorage.sol";
 
 contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
@@ -12,9 +13,11 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
     mapping(address => bool) _claims;
     address _owner;
     string _uri;
+    ISoulboundStorage _soulboundStorage;
 
     constructor(
         address owner,
+        address soulboundStorage,
         string memory name,
         string memory symbol,
         string memory uri
@@ -23,10 +26,12 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
         _setupRole(ISSUER_ROLE, owner);
         _owner = owner;
         _uri = uri;
+        _soulboundStorage = ISoulboundStorage(soulboundStorage);
     }
 
     function issue(address receiver) public virtual onlyRole(ISSUER_ROLE) {
         _claims[receiver] = true;
+        _soulboundStorage.addIssuedToken(msg.sender, receiver, address(this));
     }
 
     // Student claims school's token
@@ -40,7 +45,9 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
     }
 
     function mint(address receiver) internal virtual {
-        _safeMint(receiver, _nextTokenId++);
+        _safeMint(receiver, _nextTokenId);
+        _soulboundStorage.confirmMint(receiver, address(this), _nextTokenId);
+        _nextTokenId++;
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
