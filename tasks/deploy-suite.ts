@@ -15,42 +15,15 @@ import {
     AddressOracle,
     ExpiredDealDemerit,
 } from "../typechain-types"
-// import util from "util"
-// import request from "request"
-
-// const promiseRequest = util.promisify(request)
-
-// async function callRpc(method: string, params: any) {
-//     var options = {
-//         method: "POST",
-//         url: "https://wallaby.node.glif.io/rpc/v0",
-//         // url: "http://localhost:1234/rpc/v0",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             jsonrpc: "2.0",
-//             method: method,
-//             params: params,
-//             id: 1,
-//         }),
-//     }
-//     const res = await promiseRequest(options)
-//     return JSON.parse(res.body).result
-// }
 
 task(`deploy-suite`, `Deploy entire suite of contracts`).setAction(async (taskArgs, hre) => {
     const { ethers, run, deployments } = hre
     const { deploy: deployContract } = deployments
 
     console.log("Starting")
-    // const provider = new ethers.providers.JsonRpcProvider(
-    //     "https://wallaby.node.glif.io/rpc/v0",
-    //     31415
-    // )
     const provider = new ethers.providers.JsonRpcProvider(
-        `https://eth-goerli.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
-        5
+        "https://wallaby.node.glif.io/rpc/v0",
+        31415
     )
     const deployer = new hre.ethers.Wallet(process.env.PRIVATE_KEY as string, provider)
 
