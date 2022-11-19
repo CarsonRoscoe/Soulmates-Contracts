@@ -25,9 +25,7 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
         _uri = uri;
     }
 
-    function issue(address receiver) public virtual {
-        // require(msg.sender == _owner);
-        // Should we restrict receivers to only receive one soulbound per collection?
+    function issue(address receiver) public virtual onlyRole(ISSUER_ROLE) {
         _claims[receiver] = true;
     }
 

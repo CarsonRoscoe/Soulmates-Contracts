@@ -8,15 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "../soulboundERC721/DemeritSoulboundERC721.sol";
 
 contract DemeritFactory is ERC721Factory, Ownable {
-    MarketAPI _marketAPI;
-    AddressOracle _addressOracle;
-
     mapping(bytes32 => address) _demerits;
-
-    constructor(address marketAPI, address addressOracle) {
-        _marketAPI = MarketAPI(marketAPI);
-        _addressOracle = AddressOracle(addressOracle);
-    }
 
     function registerDemerit(bytes32 demeritId, address demerit) public {
         _demerits[demeritId] = demerit;

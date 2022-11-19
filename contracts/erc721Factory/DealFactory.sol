@@ -29,7 +29,7 @@ contract DealFactory is ERC721Factory, Ownable {
         string memory uri = string(abi.encodePacked("ipfs://", label));
 
         require(
-            keccak256(abi.encodePacked((_addressOracle.getF0Address(msg.sender)))) == keccak256(abi.encodePacked((client))),
+            keccak256(abi.encodePacked(_addressOracle.getF0Address(msg.sender))) == keccak256(abi.encodePacked((client))),
             "ERROR: Only callable by the deal's client"
         );
 
