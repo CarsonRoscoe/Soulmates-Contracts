@@ -73,3 +73,10 @@ yarn hardhat get-balance --contract 'THE DEPLOYED CONTRACT ADDRESS HERE' --accou
 ```
 
 The console should read that your account has 10000 SimpleCoin!
+
+
+
+## Deployments
+
+OpenFactory
+0x3be343e5ba5e26736D08e3B8C40a7c86f362Dc3D
