@@ -21,21 +21,21 @@ describe("DemeritFactory", () => {
     })
 
     describe("create collection", () => {
-            it("should create a demerit soulbound collection and assign", async() => {
-                await context.demeritFactory
-                    .connect(context.users.user1)                         
-                    .createCollection(NAME, SYMBOL, URI, context.expiredDealDemeritId)
+        it("should create a demerit soulbound collection and assign", async() => {
+            await context.demeritFactory
+                .connect(context.users.user1)                         
+                .createCollection(NAME, SYMBOL, URI, context.expiredDealDemeritId)
 
-                const collections = await context.soulboundStorage.getDeployedCollections(context.users.user1.address)
+            const collections = await context.soulboundStorage.getDeployedCollections(context.users.user1.address)
 
-                const demeritSoulboundERC721 = (await ethers.getContractAt(
-                    "DemeritSoulboundERC721",
-                    collections[0]
-                )) as DemeritSoulboundERC721
+            const demeritSoulboundERC721 = (await ethers.getContractAt(
+                "DemeritSoulboundERC721",
+                collections[0]
+            )) as DemeritSoulboundERC721
 
-                expect(await demeritSoulboundERC721.name()).to.equal(NAME)
-                expect(await demeritSoulboundERC721.symbol()).to.equal(SYMBOL)
-                expect(await demeritSoulboundERC721.tokenURI(1)).to.equal("URI")
-            })
+            expect(await demeritSoulboundERC721.name()).to.equal(NAME)
+            expect(await demeritSoulboundERC721.symbol()).to.equal(SYMBOL)
+            expect(await demeritSoulboundERC721.tokenURI(1)).to.equal("URI")
+        })
     })
 })

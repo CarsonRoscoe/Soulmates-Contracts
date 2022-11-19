@@ -19,20 +19,20 @@ describe("OpenFactory", () => {
     })
 
     describe("create collection", () => {
-            it("should create a soulbound collection", async() => {
-                await context.openFactory.connect(context.users.user1).createCollection(NAME, SYMBOL, URI)
+        it("should create a soulbound collection", async() => {
+            await context.openFactory.connect(context.users.user1).createCollection(NAME, SYMBOL, URI)
 
-                const collections = await context.soulboundStorage.getDeployedCollections(
-                    context.users.user1.address)
-                
-                const soulboundERC721 = (await ethers.getContractAt(
-                    "SoulboundERC721",
-                    collections[0]
-                )) as SoulboundERC721
+            const collections = await context.soulboundStorage.getDeployedCollections(
+                context.users.user1.address)
+            
+            const soulboundERC721 = (await ethers.getContractAt(
+                "SoulboundERC721",
+                collections[0]
+            )) as SoulboundERC721
 
-                expect(await soulboundERC721.name()).to.equal(NAME)
-                expect(await soulboundERC721.symbol()).to.equal(SYMBOL)
-                expect(await soulboundERC721.tokenURI(1)).to.equal(URI)
-            })
+            expect(await soulboundERC721.name()).to.equal(NAME)
+            expect(await soulboundERC721.symbol()).to.equal(SYMBOL)
+            expect(await soulboundERC721.tokenURI(1)).to.equal(URI)
+        })
     })
 })
