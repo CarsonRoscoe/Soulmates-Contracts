@@ -165,7 +165,7 @@ contract MarketAPI {
         deal.verified = false;
         deal.client = "t01109";
         deal.provider = "t01113";
-        deal.label = "mAXCg5AIg8YBXbFjtdBy1iZjpDYAwRSt0elGLF5GvTqulEii1VcM";
+        deal.label = label;
         deal.start = 25245;
         deal.end = end;
         deal.price_per_epoch = 1100000000000;

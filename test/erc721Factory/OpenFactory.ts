@@ -10,9 +10,9 @@ import { SoulboundERC721 } from "../../typechain-types"
 describe("OpenFactory", () => {
     let context: Context
 
-    let NAME = "foo"
-    let SYMBOL = "bar"
-    let URI = "ipfs://hash"
+    const NAME = "foo"
+    const SYMBOL = "bar"
+    const URI = "ipfs://hash"
 
     beforeEach(async () => {
         context = await Setup()
