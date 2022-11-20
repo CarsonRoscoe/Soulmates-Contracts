@@ -34,7 +34,6 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
         _soulboundStorage.addIssuedToken(msg.sender, receiver, address(this));
     }
 
-    // Student claims school's token
     function claim() public virtual {
         require(_claims[msg.sender] == true, "ERROR: No issue to claim.");
         mint(msg.sender);
@@ -45,7 +44,7 @@ contract SoulboundERC721 is ERC721, ISoulboundERC721, AccessControl {
     }
 
     function mint(address receiver) internal virtual {
-        _safeMint(receiver, _nextTokenId);
+        _mint(receiver, _nextTokenId);
         _soulboundStorage.confirmMint(receiver, address(this), _nextTokenId);
         _nextTokenId++;
     }

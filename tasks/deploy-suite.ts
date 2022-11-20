@@ -27,13 +27,10 @@ task(`deploy-suite`, `Deploy entire suite of contracts`).setAction(async (taskAr
     )
     const deployer = new hre.ethers.Wallet(process.env.PRIVATE_KEY as string, provider)
 
-    const accounts = await ethers.getSigners()
-    const signer2 = accounts[0]
+    const [signer] = await ethers.getSigners()
 
     console.log("Awaiting provider ready")
     await provider.ready
-
-    const signer = provider.getSigner(deployer.address)
 
     console.log("Awaiting fee data")
 
@@ -63,10 +60,12 @@ task(`deploy-suite`, `Deploy entire suite of contracts`).setAction(async (taskAr
             log: true,
         })
         console.log(`${name} at address ${deployResult.address}`)
-        return await hre.ethers.getContractAt(name, deployResult.address)
+
+        return new hre.ethers.Contract(deployResult.address, deployResult.abi, signer)
     }
 
     console.log("Awaiting deploys")
+
     const marketAPI = (await deploy("MarketAPI")) as MarketAPI
     const addressOracle = (await deploy("AddressOracle")) as AddressOracle
 
@@ -75,17 +74,19 @@ task(`deploy-suite`, `Deploy entire suite of contracts`).setAction(async (taskAr
         soulboundStorage.address,
     ])) as SoulboundEngine
 
-    // const unsignedTransaction = await soulboundStorage.populateTransaction.registerEngine(
-    //     soulboundEngine.address
-    // )
-    // const signedTransaction = await deployer.signTransaction(unsignedTransaction)
-    // await soulboundStorage.connect(signer).registerEngine(soulboundEngine.address)
-
-    // const result = await callRpc("eth_sendRawTransaction", [signedTransaction])
+    console.info("Register Engine")
+    await soulboundStorage.registerEngine(soulboundEngine.address, {
+        gasLimit: 1000000000,
+        maxPriorityFeePerGas: maxPriorityFee?.toString(),
+    })
 
     const openFactory = (await deploy("OpenFactory", [soulboundStorage.address])) as OpenFactory
     const openFactoryId = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("default"))
-    // await soulboundEngine.connect(provider).registerFactory(openFactoryId, openFactory.address)
+    console.info("Register Open Factory")
+    await soulboundEngine.registerFactory(openFactoryId, openFactory.address, {
+        gasLimit: 1000000000,
+        maxPriorityFeePerGas: maxPriorityFee?.toString(),
+    })
 
     const dealFactory = (await deploy("DealFactory", [
         soulboundStorage.address,
@@ -93,7 +94,11 @@ task(`deploy-suite`, `Deploy entire suite of contracts`).setAction(async (taskAr
         marketAPI.address,
     ])) as DealFactory
     const dealFactoryId = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("deal"))
-    // await soulboundEngine.connect(signer).registerFactory(dealFactoryId, dealFactory.address)
+    console.info("Register Deal Factory")
+    await soulboundEngine.registerFactory(dealFactoryId, dealFactory.address, {
+        gasLimit: 1000000000,
+        maxPriorityFeePerGas: maxPriorityFee?.toString(),
+    })
 
     const expiredDealDemerit = (await deploy("ExpiredDealDemerit", [
         addressOracle.address,
@@ -103,14 +108,24 @@ task(`deploy-suite`, `Deploy entire suite of contracts`).setAction(async (taskAr
         soulboundStorage.address,
     ])) as DemeritFactory
     const demeritFactoryId = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("demerit"))
-    // await soulboundEngine.connect(signer).registerFactory(demeritFactoryId, demeritFactory.address)
+    console.info("Register Demerit Factory")
+    await soulboundEngine.registerFactory(demeritFactoryId, demeritFactory.address, {
+        gasLimit: 1000000000,
+        maxPriorityFeePerGas: maxPriorityFee?.toString(),
+    })
 
     const expiredDealDemeritId = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("expired-deal"))
-    // await demeritFactory
-    //     .connect(signer)
-    //     .registerDemerit(expiredDealDemeritId, expiredDealDemerit.address)
+    console.info("Register Demerit")
+    await demeritFactory.registerDemerit(expiredDealDemeritId, expiredDealDemerit.address, {
+        gasLimit: 1000000000,
+        maxPriorityFeePerGas: maxPriorityFee?.toString(),
+    })
 
-    // await addressOracle.connect(signer).setF0Address(deployer.address, "t01109")
+    console.info("Set Deployer f0 address")
+    await addressOracle.setF0Address(deployer.address, "t01109", {
+        gasLimit: 1000000000,
+        maxPriorityFeePerGas: maxPriorityFee?.toString(),
+    })
 
     console.info({
         marketAPI: marketAPI.address,

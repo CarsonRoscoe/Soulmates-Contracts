@@ -6,7 +6,6 @@ import { SignerWithAddress } from "hardhat-deploy-ethers/signers"
 import { Context, Setup } from "./../utils/Setup"
 import { SoulboundERC721 } from "../../typechain-types"
 
-
 describe("DealFactory", () => {
     let context: Context
 
@@ -22,7 +21,7 @@ describe("DealFactory", () => {
     })
 
     describe("create collection", () => {
-        it("should create a soulbound collection", async() => {
+        it("should create a soulbound collection", async () => {
             // create a mock deal with the deal URI. the deal factory was constructed with the market api already
             context.marketAPI.create_mock(DEAL_URI, LABEL, END)
 
@@ -30,10 +29,12 @@ describe("DealFactory", () => {
             context.addressOracle.setF0Address(context.users.user1.address, DEAL_CLIENT)
 
             await context.dealFactory
-                .connect(context.users.user1)                         
+                .connect(context.users.user1)
                 .createSoulboundCollection(NAME, SYMBOL, DEAL_URI)
 
-            const collections = await context.soulboundStorage.getDeployedCollections(context.users.user1.address)
+            const collections = await context.soulboundStorage.getDeployedCollections(
+                context.users.user1.address
+            )
 
             const soulboundERC721 = (await ethers.getContractAt(
                 "SoulboundERC721",
