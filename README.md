@@ -10,17 +10,22 @@ soulboundEngine: 0xED968D821c9aE6d9FCE4eC48319235dEC6946BaE
 
 openFactory: 0x12d22F4582d92F001f666Da19a8DA3e55a3E5Ade
 dealFactory: 0x2B1b3De04C4b79825BC0E5215AE1dA051814E080
-demeritFactory: 0x2B1b3De04C4b79825BC0E5215AE1dA051814E080
+demeritFactory: 0x40D550e6b41d06Bc433959bEF9a4058525F9FFd9
 
 expiredDealDemerit: 0x05b6C60B769dd659CA5cD8af3D2d60A362F49506
 
 # Abis frontend will need for hackathon scope
 
 SoulboundStorage
+
 OpenFactory
+
 DealFactory
+
 DemeritFactory
+
 SoulboundERC721
+
 DemericSoulboundERC721
 
 # Frontend Calls
